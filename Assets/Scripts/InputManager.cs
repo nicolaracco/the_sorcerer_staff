@@ -15,6 +15,12 @@ public class InputManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit(0);
+            return;
+        }
+        
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         Vector2 movementInput = new Vector2(
