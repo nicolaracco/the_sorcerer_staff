@@ -1,5 +1,8 @@
+/// <summary>
+/// The GameTurn enum represents a turn during the game
+/// </summary>
 public enum GameTurn
 {
-    Waiting,
-    Player
+    Waiting, // placeholder turn for waiting
+    Player // player's turn
 }
