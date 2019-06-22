@@ -1,60 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
-/// The GameManager is the FSM handling the game itself.
-/// At the moment it handles the current turn, the turn advancement, the player position on the 
-/// screen and takes care of updating it
+/// World related event
+/// </summary>
+[Serializable]
+public class WorldEvent : UnityEvent<World> {}
+
+/// <summary>
+/// The game manager handles the world generation and notifies for world related events
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    /// <summary>
-    /// How much time to wait between each turn transition
-    /// </summary>
-    public float turnDelay = 0.1f;
+    public WorldEvent OnWorldGenerate;
 
-    public GameTurnUpdatedEvent OnGameTurnUpdate;
-    
-    /// <summary>
-    /// Current turn
-    /// </summary>
-    private GameTurn currentTurn = GameTurn.Waiting;
+    public World world { get; private set; }
+    public Entity playerEntity { get { return world.playerEntity; } }
 
-    public GameTurn CurrentTurn 
-    { 
-        get { return currentTurn; } 
-        private set
-        {
-            if (currentTurn == value)
-                return;
-            GameTurn oldOne = currentTurn;
-            currentTurn = value;
-            OnGameTurnUpdate.Invoke(oldOne, currentTurn);
-        }
+    private void Awake()
+    {
+        world = new World();
     }
 
-    void Awake()
+    private void Start()
     {
-        CurrentTurn = GameTurn.Player;
-    }
-
-    /// <summary>
-    /// Invoked when the player turn has been completed to move the FSM in the next state
-    /// </summary>
-    public void OnPlayerTurnCompleted()
-    {
-        CurrentTurn = GameTurn.Waiting;
-        StartCoroutine(PlayerTurnComplete());
-    }
-
-    /// <summary>
-    /// Waits the turn delay and move the turn back to the player
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator PlayerTurnComplete()
-    {
-        yield return new WaitForSeconds(turnDelay);
-        CurrentTurn = GameTurn.Player;
+        OnWorldGenerate.Invoke(world);
     }
 }
