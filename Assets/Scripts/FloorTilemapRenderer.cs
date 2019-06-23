@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Sorcerer.Map;
 
 /// <summary>
 /// The FloorTilemapRenderer renders the ground layer of the map

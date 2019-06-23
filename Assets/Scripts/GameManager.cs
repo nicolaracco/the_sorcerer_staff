@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Sorcerer.Map;
 
 /// <summary>
 /// World related event
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        world = new World();
+        world = new World(new TutorialMapGenerationOptions(80, 50, 30, 6, 10));
     }
 
     private void Start()

@@ -5,10 +5,15 @@ using UnityEngine;
 /// Generic entity renderer
 /// It handles the entity update
 /// </summary>
+[RequireComponent(typeof(SpriteRenderer))]
 public class EntityRenderer : MonoBehaviour
 {
+    public Color playerColor = Color.white;
+    public Color npcColor = Color.yellow;
+
     public Entity entity { get; private set; }
 
+    private SpriteRenderer spriteRenderer;
     private bool needsUpdate = false;
 
     private Vector3 entityPositionToScreenPosition
@@ -24,9 +29,15 @@ public class EntityRenderer : MonoBehaviour
     {
         this.entity = entity;
         this.entity.OnPositionChange.AddListener(OnEntityPositionChanged);
+        spriteRenderer.color = entity is PlayerEntity ? playerColor : npcColor;
     }
 
-    protected virtual void Start()
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
     {
         if (entity == null)
             throw new Exception("Missing entity in EntityController of " + gameObject.name);
@@ -34,7 +45,7 @@ public class EntityRenderer : MonoBehaviour
         needsUpdate = false;
     }
 
-    protected virtual void Update()
+    private void Update()
     {
         if (needsUpdate)
         {
