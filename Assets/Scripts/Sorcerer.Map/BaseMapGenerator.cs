@@ -11,10 +11,10 @@ namespace Sorcerer.Map
             for (int x = 0; x < options.width; x++)
                 for (int y = 0; y < options.height; y++)
                 {
-                    Cell cell = map.cells[x, y];
+                    Cell cell = map.CellAt(x, y);
                     cell.isMovementBlocked = cell.isSightBlocked = false;
                 }
-            map.playerStartPosition = new Vector2Int(options.width / 2, options.height / 2);
+            map.PlayerStartPosition = new Vector2Int(options.width / 2, options.height / 2);
         }
     }
 }

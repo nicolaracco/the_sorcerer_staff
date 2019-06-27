@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Sorcerer;
 using Sorcerer.Map;
 
 /// <summary>
@@ -14,6 +15,7 @@ public class FloorTilemapRenderer : MonoBehaviour
 
     public Color baseColor = new Color(50, 50, 150);
     public Color sightBlockedColor = new Color(0, 0, 100);
+    public Color fovColor = new Color(0, 0, 0);
 
     private Tilemap tilemap;
 
@@ -24,18 +26,27 @@ public class FloorTilemapRenderer : MonoBehaviour
     /// <param name="world"></param>
     public void OnWorldGenerated(World world)
     {
-        Map map = world.map;
-        for (int x = 0; x < map.width; x++)
-            for (int y = 0; y < map.height; y++)
+        IMap map = world.map;
+        map.OnFovUpdate.AddListener(Redraw);
+        Redraw(map);
+    }
+
+    private void Redraw(IMap map)
+    {
+        for (int x = 0; x < map.Width; x++)
+            for (int y = 0; y < map.Height; y++)
             {
-                Cell cell = map.cells[x, y];
+                Cell cell = map.CellAt(x, y);
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 tilemap.SetTile(pos, tile);
                 tilemap.SetTileFlags(pos, TileFlags.None);
-                if (cell.isSightBlocked)
-                    tilemap.SetColor(pos, sightBlockedColor);
+                if (cell.isInFov)
+                    if (cell.isSightBlocked)
+                        tilemap.SetColor(pos, sightBlockedColor);
+                    else
+                        tilemap.SetColor(pos, baseColor);
                 else
-                    tilemap.SetColor(pos, baseColor);
+                    tilemap.SetColor(pos, fovColor);
             }
     }
 

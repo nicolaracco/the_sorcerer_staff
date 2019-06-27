@@ -176,7 +176,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: WorldEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: Sorcerer.WorldEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!4 &229829363
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +453,7 @@ MonoBehaviour:
   tile: {fileID: 11400000, guid: a58de67a1e09f614580b235f197711d6, type: 2}
   baseColor: {r: 0.19607843, g: 0.19607843, b: 0.5882353, a: 0.2}
   sightBlockedColor: {r: 0, g: 0, b: 0.39215687, a: 1}
+  fovColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!483693784 &1440741062
 TilemapRenderer:
   m_ObjectHideFlags: 0

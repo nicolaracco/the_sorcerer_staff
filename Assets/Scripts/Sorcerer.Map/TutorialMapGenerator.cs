@@ -48,7 +48,7 @@ namespace Sorcerer.Map
                     createRoom(newRoom);
                     Vector2Int newRoomCenter = newRoom.Center();
                     if (rooms.Count == 0)
-                        map.playerStartPosition = newRoomCenter;
+                        map.PlayerStartPosition = newRoomCenter;
                     else
                     {
                         Vector2Int prevRoomCenter = rooms[rooms.Count - 1].Center();
@@ -72,7 +72,7 @@ namespace Sorcerer.Map
             for (int x = area.xMin + 1; x < area.xMax; x++)
                 for (int y = area.yMin + 1; y < area.yMax; y++)
                 {
-                    Cell cell = cells[x, y];
+                    Cell cell = map.CellAt(x, y);
                     cell.isMovementBlocked = cell.isSightBlocked = false;
                 }
         }
@@ -81,7 +81,7 @@ namespace Sorcerer.Map
         {
             for (int x = Math.Min(x1, x2); x <= Math.Max(x1, x2); x++)
             {
-                Cell cell = cells[x, y];
+                Cell cell = map.CellAt(x, y);
                 cell.isMovementBlocked = cell.isSightBlocked = false;
             }
         }
@@ -90,7 +90,7 @@ namespace Sorcerer.Map
         {
             for (int y = Math.Min(y1, y2); y <= Math.Max(y1, y2); y++)
             {
-                Cell cell = cells[x, y];
+                Cell cell = map.CellAt(x, y);
                 cell.isMovementBlocked = cell.isSightBlocked = false;
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Sorcerer;
 
 /// <summary>
 /// The EntitiesManager manages the rendering of entities in game
@@ -16,8 +18,16 @@ public class EntitiesManager : MonoBehaviour
     /// <param name="world"></param>
     public void OnWorldGenerated(World world)
     {
+        world.OnFovUpdate.AddListener(RefreshVisibleEntities);
         foreach (Entity entity in world.entities)
             CreateEntity(entity);
+        RefreshVisibleEntities(world);
+    }
+
+    private void RefreshVisibleEntities(World world)
+    {
+        foreach (EntityRenderer renderer in GetComponentsInChildren<EntityRenderer>(true))
+            renderer.gameObject.SetActive(renderer.entity.cell.isInFov);
     }
 
     /// <summary>

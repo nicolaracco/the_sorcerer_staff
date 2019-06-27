@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Sorcerer;
 
 [RequireComponent(typeof(GameManager))]
 public class PlayerInputController : MonoBehaviour

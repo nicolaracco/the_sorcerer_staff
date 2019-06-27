@@ -1,13 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
+using Sorcerer;
 using Sorcerer.Map;
-
-/// <summary>
-/// World related event
-/// </summary>
-[Serializable]
-public class WorldEvent : UnityEvent<World> {}
 
 /// <summary>
 /// The game manager handles the world generation and notifies for world related events
