@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,10 +38,10 @@ public class EntitiesManager : MonoBehaviour
     private void CreateEntity(Entity entity)
     {
         GameObject instance = Instantiate(entityPrefab, Vector3.zero, Quaternion.identity);
+        if (entity is PlayerEntity)
+            instance.AddComponent<PlayerActor>();
         instance.transform.parent = transform;
         EntityRenderer renderer = instance.GetComponent<EntityRenderer>();
         renderer.Init(entity);
-        if (entity is PlayerEntity)
-            Camera.main.GetComponent<CameraController>().player = instance.transform;
     }
 }

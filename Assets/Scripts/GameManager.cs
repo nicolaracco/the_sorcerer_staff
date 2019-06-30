@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(transform.name);
         OnWorldGenerate.Invoke(world);
     }
 }
