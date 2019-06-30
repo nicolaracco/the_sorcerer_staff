@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sorcerer.Map
+namespace Sorcerer.Map.Generators
 {
     public abstract class AMapGenerator<T> where T : IMapGenerationOptions
     {

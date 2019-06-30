@@ -1,4 +1,4 @@
-namespace Sorcerer.Map
+namespace Sorcerer.Map.Generators
 {
     public interface IMapGenerationOptions
     {

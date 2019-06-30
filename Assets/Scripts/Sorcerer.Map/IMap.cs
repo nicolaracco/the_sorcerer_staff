@@ -8,11 +8,9 @@ namespace Sorcerer.Map
     [Serializable]
     public class MapEvent : UnityEvent<IMap> { }
 
-    public interface IMap : ICellContainer
+    public interface IMap : ICellContainer, IEntitiesContainer
     {
         MapEvent OnFovUpdate { get; }
-
-        Vector2Int PlayerStartPosition { get; set; }
 
         void ComputeFov(Vector2Int origin, int radius);
     }

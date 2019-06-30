@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using UnityEngine.Events;
+using Sorcerer.Map.Generators;
 
 namespace Sorcerer.Map
 {
@@ -25,6 +25,9 @@ namespace Sorcerer.Map
                 default:
                     throw new Exception("Unknown map generation options received " + options.GetType().Name);
             }
+            if (map.Player == null)
+                throw new Exception("Player entity has not been registered during map generation");
+            map.Player.ComputeFov();
             return map;
         }
 
@@ -33,12 +36,10 @@ namespace Sorcerer.Map
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        /// <summary>
-        /// Player starting position in the map
-        /// </summary>
-        public Vector2Int PlayerStartPosition { get; set; } = Vector2Int.zero;
-
         private Cell[,] cells;
+        private List<Entity> entities;
+        
+        public PlayerEntity Player { get; private set; }
 
         private Map(int width, int height)
         {
@@ -51,6 +52,7 @@ namespace Sorcerer.Map
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Height; y++)
                     PopulateCellConnections(cells[x, y]);
+            entities = new List<Entity>();
         }
 
         public Cell CellAt(Vector2Int position)
@@ -60,6 +62,25 @@ namespace Sorcerer.Map
         public Cell CellAt(int x, int y)
         {
             return cells[x, y];
+        }
+
+        public ReadOnlyCollection<Entity> Entities
+        {
+            get
+            {
+                return new ReadOnlyCollection<Entity>(entities);
+            }
+        }
+
+        public void AddEntity(Entity entity)
+        {
+            if (entity is PlayerEntity)
+            {
+                if (Player != null)
+                    throw new Exception("Player entity has already been registered in map");
+                Player = entity as PlayerEntity;
+            }
+            entities.Add(entity);
         }
 
         /// <summary>

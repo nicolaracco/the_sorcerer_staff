@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sorcerer.Map
+namespace Sorcerer.Map.Generators
 {
     public class BaseMapGenerator : AMapGenerator<MapGenerationOptions>
     {
@@ -14,7 +14,12 @@ namespace Sorcerer.Map
                     Cell cell = map.CellAt(x, y);
                     cell.isMovementBlocked = cell.isSightBlocked = false;
                 }
-            map.PlayerStartPosition = new Vector2Int(options.width / 2, options.height / 2);
+            map.AddEntity(new PlayerEntity(
+                map, new Vector2Int(options.width / 2, options.height / 2)
+            ));
+            map.AddEntity(new Entity(
+                map, "@", new Vector2Int(map.Width / 2 - 5, map.Height / 2)
+            ));
         }
     }
 }

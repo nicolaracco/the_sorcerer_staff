@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sorcerer.Map;
 
-namespace Sorcerer
+namespace Sorcerer.Map
 {
     /// <summary>
     /// The player entity
@@ -9,7 +9,7 @@ namespace Sorcerer
     public class PlayerEntity : Entity {
         private int fovRadius = 10;
 
-        public PlayerEntity(IMap map) : base(map, "@", map.PlayerStartPosition) { }
+        public PlayerEntity(IMap map, Vector2Int position) : base(map, "@", position) { }
 
         public override bool AttemptToMoveBy(Vector2Int delta)
         {

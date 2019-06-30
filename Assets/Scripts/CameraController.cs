@@ -1,5 +1,5 @@
 using UnityEngine;
-using Sorcerer;
+using Sorcerer.Map;
 
 /// <summary>
 /// This CameraController makes sure the player is always in the middle of the screen

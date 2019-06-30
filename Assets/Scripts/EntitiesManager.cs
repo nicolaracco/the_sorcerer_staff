@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sorcerer;
+using Sorcerer.Map;
 
 /// <summary>
 /// The EntitiesManager manages the rendering of entities in game
@@ -20,7 +21,7 @@ public class EntitiesManager : MonoBehaviour
     public void OnWorldGenerated(World world)
     {
         world.OnFovUpdate.AddListener(RefreshVisibleEntities);
-        foreach (Entity entity in world.entities)
+        foreach (Entity entity in world.map.Entities)
             CreateEntity(entity);
         RefreshVisibleEntities(world);
     }

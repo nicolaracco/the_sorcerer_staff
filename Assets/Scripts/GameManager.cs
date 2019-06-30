@@ -1,6 +1,7 @@
 using UnityEngine;
 using Sorcerer;
 using Sorcerer.Map;
+using Sorcerer.Map.Generators;
 
 /// <summary>
 /// The game manager handles the world generation and notifies for world related events
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     public WorldEvent OnWorldGenerate;
 
     public World world { get; private set; }
-    public Entity playerEntity { get { return world.playerEntity; } }
+    public Entity playerEntity { get { return world.map.Player; } }
 
     private void Awake()
     {
@@ -19,7 +20,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(transform.name);
         OnWorldGenerate.Invoke(world);
     }
 }

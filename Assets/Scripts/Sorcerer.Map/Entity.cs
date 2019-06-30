@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sorcerer.Map;
 
-namespace Sorcerer
+namespace Sorcerer.Map
 {
     /// <summary>
     /// Map entity. It represents npcs, items, etc.

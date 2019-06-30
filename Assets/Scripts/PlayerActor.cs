@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Sorcerer.GameLoop;
-using Sorcerer;
+using Sorcerer.Map;
 
 public class PlayerActor : AGameLoopActor
 {

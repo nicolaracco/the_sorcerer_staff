@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Sorcerer;
+using Sorcerer.Map;
 
 /// <summary>
 /// Generic entity renderer

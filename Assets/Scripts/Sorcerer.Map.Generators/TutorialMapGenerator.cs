@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sorcerer.Map
+namespace Sorcerer.Map.Generators
 {
     public struct TutorialMapGenerationOptions : IMapGenerationOptions
     {
@@ -48,7 +48,7 @@ namespace Sorcerer.Map
                     createRoom(newRoom);
                     Vector2Int newRoomCenter = newRoom.Center();
                     if (rooms.Count == 0)
-                        map.PlayerStartPosition = newRoomCenter;
+                        map.AddEntity(new PlayerEntity(map, newRoomCenter));
                     else
                     {
                         Vector2Int prevRoomCenter = rooms[rooms.Count - 1].Center();
