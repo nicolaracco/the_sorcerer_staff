@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Sorcerer.Map;
 
@@ -9,10 +11,19 @@ using Sorcerer.Map;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EntityRenderer : MonoBehaviour
 {
-    public Color playerColor = Color.white;
-    public Color npcColor = Color.yellow;
+    [Serializable]
+    public struct FaceSprite
+    {
+        public char symbol;
+        public Sprite sprite;
+    }
 
-    public Entity entity { get; private set; }
+    public List<FaceSprite> availableFaces;
+
+    [SerializeField]
+    private Entity entity;
+
+    public Entity Entity { get { return entity; } }
 
     private SpriteRenderer spriteRenderer;
     private bool needsUpdate = false;
@@ -30,7 +41,10 @@ public class EntityRenderer : MonoBehaviour
     {
         this.entity = entity;
         this.entity.OnPositionChange.AddListener(OnEntityPositionChanged);
-        spriteRenderer.color = entity is PlayerEntity ? playerColor : npcColor;
+        FaceSprite faceSprite = availableFaces.FirstOrDefault(f => f.symbol == entity.symbol);
+        if (faceSprite.sprite != null) // leave the default sprite if no face sprite is found
+            spriteRenderer.sprite = faceSprite.sprite;
+        spriteRenderer.color = entity.color;
     }
 
     private void Awake()

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 229829365}
   - component: {fileID: 229829367}
   m_Layer: 0
-  m_Name: World
+  m_Name: Game Env
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,11 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b854fe17cc58734195a55ed8105a636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnWorldGenerate:
+  OnMapGenerate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 229829365}
-        m_MethodName: OnWorldGenerated
+        m_MethodName: OnMapGenerated
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1440741061}
-        m_MethodName: OnWorldGenerated
+        m_MethodName: OnMapGenerated
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -176,7 +176,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Sorcerer.WorldEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: Sorcerer.Map.MapEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!4 &229829363
 Transform:

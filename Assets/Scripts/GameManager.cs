@@ -1,5 +1,4 @@
 using UnityEngine;
-using Sorcerer;
 using Sorcerer.Map;
 using Sorcerer.Map.Generators;
 
@@ -8,18 +7,18 @@ using Sorcerer.Map.Generators;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    public WorldEvent OnWorldGenerate;
+    public MapEvent OnMapGenerate;
 
-    public World world { get; private set; }
-    public Entity playerEntity { get { return world.map.Player; } }
+    public IMap map { get; private set; }
+    public Entity playerEntity { get { return map.Player; } }
 
     private void Awake()
     {
-        world = new World(new TutorialMapGenerationOptions(80, 50, 30, 6, 10));
+        map = Map.Generate(new TutorialMapGenerationOptions(80, 50, 30, 6, 10, 3));
     }
 
     private void Start()
     {
-        OnWorldGenerate.Invoke(world);
+        OnMapGenerate.Invoke(map);
     }
 }

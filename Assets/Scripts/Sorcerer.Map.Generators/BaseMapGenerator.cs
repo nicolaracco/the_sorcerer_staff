@@ -18,7 +18,7 @@ namespace Sorcerer.Map.Generators
                 map, new Vector2Int(options.width / 2, options.height / 2)
             ));
             map.AddEntity(new Entity(
-                map, "@", new Vector2Int(map.Width / 2 - 5, map.Height / 2)
+                map, '@', Color.yellow, "NPC", new Vector2Int(map.Width / 2 - 5, map.Height / 2)
             ));
         }
     }

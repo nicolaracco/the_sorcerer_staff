@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Sorcerer;
 using Sorcerer.Map;
 
 /// <summary>
@@ -18,18 +17,18 @@ public class EntitiesManager : MonoBehaviour
     /// It creates all the entities
     /// </summary>
     /// <param name="world"></param>
-    public void OnWorldGenerated(World world)
+    public void OnMapGenerated(IMap map)
     {
-        world.OnFovUpdate.AddListener(RefreshVisibleEntities);
-        foreach (Entity entity in world.map.Entities)
+        map.OnFovUpdate.AddListener(RefreshVisibleEntities);
+        foreach (Entity entity in map.Entities)
             CreateEntity(entity);
-        RefreshVisibleEntities(world);
+        RefreshVisibleEntities(map);
     }
 
-    private void RefreshVisibleEntities(World world)
+    private void RefreshVisibleEntities(IMap map)
     {
         foreach (EntityRenderer renderer in GetComponentsInChildren<EntityRenderer>(true))
-            renderer.gameObject.SetActive(renderer.entity.cell.isInFov);
+            renderer.gameObject.SetActive(renderer.Entity.cell.isInFov);
     }
 
     /// <summary>

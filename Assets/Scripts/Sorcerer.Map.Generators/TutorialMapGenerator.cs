@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Sorcerer.Map.Generators
@@ -11,31 +12,43 @@ namespace Sorcerer.Map.Generators
         public int maxRooms { get; private set; }
         public int roomMinSize { get; private set; }
         public int roomMaxSize { get; private set; }
+        public int maxMonstersPerRoom { get; private set; }
         public int? seed { get; private set; }
 
-        public TutorialMapGenerationOptions(int width, int height, int maxRooms, int roomMinSize, int roomMaxSize, int? seed = null)
+        public TutorialMapGenerationOptions(
+            int width, int height, int maxRooms, int roomMinSize, int roomMaxSize, 
+            int maxMonstersPerRoom, int? seed = null
+        )
         {
             this.width = width;
             this.height = height;
             this.maxRooms = maxRooms;
             this.roomMinSize = roomMinSize;
             this.roomMaxSize = roomMaxSize;
+            this.maxMonstersPerRoom = maxMonstersPerRoom;
             this.seed = seed;
         }
     }
 
     public class TutorialMapGenerator : AMapGenerator<TutorialMapGenerationOptions>
     {
+        private List<RectInt> rooms;
+        private System.Random rnd;
+
+        private Color desaturatedGreenColor = new Color(64f / 255f, 128f / 255f, 64f / 255f);
+        private Color darkGreen = new Color(0, 191f / 255f, 0);
+
         public TutorialMapGenerator(Map map, TutorialMapGenerationOptions options)
             : base(map, options)
-        {}
+        {
+            rooms = new List<RectInt>();
+            rnd = options.seed.HasValue 
+                ? new System.Random(options.seed.Value) 
+                : new System.Random();
+        }
 
         public override void Populate()
         {
-            System.Random rnd = options.seed.HasValue 
-                ? new System.Random(options.seed.Value) 
-                : new System.Random();
-            List<RectInt> rooms = new List<RectInt>();
             for (int i = 0; i < options.maxRooms; i++)
             {
                 int w = rnd.Next(options.roomMinSize, options.roomMaxSize);
@@ -62,6 +75,7 @@ namespace Sorcerer.Map.Generators
                             createHorizontalTunnel(prevRoomCenter.x, newRoomCenter.x, newRoomCenter.y);
                         }
                     }
+                    placeEntities(newRoom);
                     rooms.Add(newRoom);
                 }
             }
@@ -92,6 +106,25 @@ namespace Sorcerer.Map.Generators
             {
                 Cell cell = map.CellAt(x, y);
                 cell.isMovementBlocked = cell.isSightBlocked = false;
+            }
+        }
+
+        private void placeEntities(RectInt area)
+        {
+            int monstersCount = rnd.Next(0, options.maxMonstersPerRoom);
+            for (int i = 0; i < monstersCount; i++)
+            {
+                Vector2Int position = new Vector2Int(
+                    rnd.Next(area.xMin + 1, area.xMax - 1),
+                    rnd.Next(area.yMin + 1, area.yMax - 1)
+                );
+                if (map.Entities.FirstOrDefault(e => e.position == position) == null)
+                {
+                    if (rnd.Next(0, 100) < 80)
+                        map.AddEntity(new Entity(map, 'o', desaturatedGreenColor, "Orc", position));
+                    else
+                        map.AddEntity(new Entity(map, 'T', darkGreen, "Troll", position));
+                }
             }
         }
     }

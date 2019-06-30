@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Sorcerer;
 using Sorcerer.Map;
 
 /// <summary>
@@ -24,9 +23,8 @@ public class FloorTilemapRenderer : MonoBehaviour
     /// It iterates over the world populating the tilemap
     /// </summary>
     /// <param name="world"></param>
-    public void OnWorldGenerated(World world)
+    public void OnMapGenerated(IMap map)
     {
-        IMap map = world.map;
         map.OnFovUpdate.AddListener(Redraw);
         Redraw(map);
     }

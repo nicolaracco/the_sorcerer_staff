@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7085240565491439266, guid: e465868df72dce24eae6ea84bc95a8ed,
+  m_Sprite: {fileID: -8863548527796457804, guid: e465868df72dce24eae6ea84bc95a8ed,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,3 +94,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6242aba1f344f43802516ed5bb69d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  availableFaces:
+  - symbol: 64
+    sprite: {fileID: -7085240565491439266, guid: e465868df72dce24eae6ea84bc95a8ed,
+      type: 3}
+  - symbol: 111
+    sprite: {fileID: 5159042297045098903, guid: e465868df72dce24eae6ea84bc95a8ed,
+      type: 3}
+  - symbol: 84
+    sprite: {fileID: -1278165941586626316, guid: e465868df72dce24eae6ea84bc95a8ed,
+      type: 3}
+  entity:
+    OnPositionChange:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    symbol: 0
+    name: 
+    color: {r: 0, g: 0, b: 0, a: 0}

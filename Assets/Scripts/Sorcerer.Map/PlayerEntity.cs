@@ -9,7 +9,9 @@ namespace Sorcerer.Map
     public class PlayerEntity : Entity {
         private int fovRadius = 10;
 
-        public PlayerEntity(IMap map, Vector2Int position) : base(map, "@", position) { }
+        public PlayerEntity(IMap map, Vector2Int position) 
+            : base(map, '@', Color.white, "Player", position) 
+        { }
 
         public override bool AttemptToMoveBy(Vector2Int delta)
         {

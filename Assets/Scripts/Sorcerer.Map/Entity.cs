@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using Sorcerer.Map;
@@ -7,6 +8,7 @@ namespace Sorcerer.Map
     /// <summary>
     /// Map entity. It represents npcs, items, etc.
     /// </summary>
+    [Serializable]
     public class Entity
     {
         private Vector2Int _position;
@@ -17,9 +19,17 @@ namespace Sorcerer.Map
         /// </summary>
         public UnityEvent OnPositionChange = new UnityEvent();
         /// <summary>
+        /// Character representing the entity
+        /// </summary>
+        public char symbol;
+        /// <summary>
         /// Entity name
         /// </summary>
         public string name;
+        /// <summary>
+        /// Entity color
+        /// </summary>
+        public Color color;
         /// <summary>
         /// Entity position in the map
         /// </summary>
@@ -36,11 +46,13 @@ namespace Sorcerer.Map
 
         public Cell cell { get { return map.CellAt(position); } }
 
-        public Entity(IMap map, string name, Vector2Int position)
+        public Entity(IMap map, char symbol, Color color, string name, Vector2Int position)
         {
             this.map = map;
             this.name = name;
             this.position = position;
+            this.color = color;
+            this.symbol = symbol;
         }
 
         /// <summary>
