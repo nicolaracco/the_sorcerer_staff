@@ -11,6 +11,6 @@ namespace Sorcerer.Map
         bool isMovementBlocked { get; }
         bool isInFov { get; set; }
 
-        ReadOnlyDictionary<Vector2Int, ICell> Connections { get; }
+        ReadOnlyDictionary<Direction, ICell> Connections { get; }
     }
 }

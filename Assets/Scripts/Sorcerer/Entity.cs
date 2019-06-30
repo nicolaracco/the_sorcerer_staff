@@ -51,7 +51,7 @@ namespace Sorcerer
         public virtual bool AttemptToMoveBy(Vector2Int delta)
         {
             ICell connection;
-            if (!cell.Connections.TryGetValue(delta, out connection))
+            if (!cell.Connections.TryGetValue(delta.ToSorcererDirection(), out connection))
                 return false;
             if (connection.isMovementBlocked)
                 return false;

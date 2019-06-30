@@ -17,11 +17,11 @@ namespace Sorcerer.Map
         /// <param name="map">map that will receive the fov settings</param>
         /// <param name="origin">fov origin</param>
         /// <param name="radius">fov radius</param>
-        public static void Compute(IMap map, Vector2Int origin, int radius)
+        public static void Compute(ICellContainer map, Vector2Int origin, int radius)
         {
             ClearFovInCells(map);
-            foreach (ICell borderCell in map.BorderCellsInSquare(origin, radius))
-                foreach (ICell cell in map.CellsAlongLine(origin, borderCell.position))
+            foreach (ICell borderCell in MapNavigationUtils.BorderCellsInSquare(map, origin, radius))
+                foreach (ICell cell in MapNavigationUtils.CellsAlongLine(map, origin, borderCell.position))
                 {
                     if (Math.Abs(Vector2Int.Distance(cell.position, origin)) > radius)
                         break;
@@ -43,9 +43,9 @@ namespace Sorcerer.Map
         /// </summary>
         /// <param name="origin"></param>
         /// <param name="radius"></param>
-        private static void PostProcessFov(IMap map, Vector2Int origin, int radius)
+        private static void PostProcessFov(ICellContainer map, Vector2Int origin, int radius)
         {
-            foreach (ICell cell in map.CellsInSquare(origin, radius))
+            foreach (ICell cell in MapNavigationUtils.CellsInSquare(map, origin, radius))
             {
                 if (cell.position.x > origin.x)
                 {
@@ -64,7 +64,7 @@ namespace Sorcerer.Map
             }
         }
 
-        private static void PostProcessFovQuadrant(IMap map, ICell cell, Quadrant quadrant)
+        private static void PostProcessFovQuadrant(ICellContainer map, ICell cell, Quadrant quadrant)
         {
             ICell c1, c2;
             switch (quadrant)
@@ -103,7 +103,7 @@ namespace Sorcerer.Map
                     cell.isInFov = true;
         }
 
-        private static void ClearFovInCells(IMap map)
+        private static void ClearFovInCells(ICellContainer map)
         {
             for (int x = 0; x < map.Width; x++)
                 for (int y = 0; y < map.Height; y++)

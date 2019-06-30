@@ -43,9 +43,6 @@ public class PlayerActor : AGameLoopActor
             return;
         Vector2Int movementInput = GetMovementInputVector();
         if (movementInput != Vector2Int.zero && entity.AttemptToMoveBy(movementInput))
-        {
-            Debug.Log("moved by " + movementInput);
             alreadyMovedInCurrentTurn = true;
-        }
     }
 }
