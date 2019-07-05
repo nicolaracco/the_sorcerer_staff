@@ -15,25 +15,25 @@ namespace Sorcerer.Map
             if (self.x == 0)
             {
                 if (self.y == -1)
-                    return Direction.N;
-                if (self.y == 1)
                     return Direction.S;
+                if (self.y == 1)
+                    return Direction.N;
             } 
             else if (self.x == 1)
             {
                 if (self.y == -1)
-                    return Direction.NE;
-                if (self.y == 1)
                     return Direction.SE;
+                if (self.y == 1)
+                    return Direction.NE;
                 if (self.y == 0)
                     return Direction.E;
             }
             else if (self.x == -1)
             {
                 if (self.y == -1)
-                    return Direction.NW;
-                if (self.y == 1)
                     return Direction.SW;
+                if (self.y == 1)
+                    return Direction.NW;
                 if (self.y == 0)
                     return Direction.W;
             }

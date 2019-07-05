@@ -12,13 +12,13 @@ namespace Sorcerer.Map.Generators
                 for (int y = 0; y < options.height; y++)
                 {
                     Cell cell = map.CellAt(x, y);
-                    cell.isMovementBlocked = cell.isSightBlocked = false;
+                    cell.isBlockingMovement = cell.isSightBlocked = false;
                 }
-            map.AddEntity(new PlayerEntity(
-                map, new Vector2Int(options.width / 2, options.height / 2)
-            ));
+            map.Player = new Entity(
+                map, '@', Color.white, "Player", new Vector2Int(options.width / 2, options.height / 2), true
+            );
             map.AddEntity(new Entity(
-                map, '@', Color.yellow, "NPC", new Vector2Int(map.Width / 2 - 5, map.Height / 2)
+                map, '@', Color.yellow, "NPC", new Vector2Int(map.Width / 2 - 5, map.Height / 2), true
             ));
         }
     }

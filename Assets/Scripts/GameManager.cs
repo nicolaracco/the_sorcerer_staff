@@ -7,6 +7,7 @@ using Sorcerer.Map.Generators;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    public int fovRadius = 10;
     public MapEvent OnMapGenerate;
 
     public IMap map { get; private set; }
@@ -19,6 +20,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        playerEntity.OnPositionChange.AddListener(OnPlayerPositionChanged);
+        OnPlayerPositionChanged();
         OnMapGenerate.Invoke(map);
+    }
+
+    private void OnPlayerPositionChanged() {
+        map.ComputeFov(playerEntity.position, fovRadius);
     }
 }

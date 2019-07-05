@@ -1,20 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Sorcerer.GameLoop;
 using Sorcerer.Map;
+using Sorcerer.UI;
 
-public class PlayerActor : AGameLoopActor
+public class PlayerActor : EntityActor
 {
-    private GameManager gameManager;
     private bool isInputEnabled = false;
     private bool alreadyMovedInCurrentTurn = true;
 
+    private OutputConsole console;
+
     private void Awake()
     {
-        gameManager = GameObject.FindObjectOfType<GameManager>();
+        console = GameObject.FindObjectOfType<OutputConsole>();
     }
-
-    private Entity entity { get { return gameManager.playerEntity; } }
 
     public override IEnumerator WaitForAction()
     {
@@ -37,12 +38,26 @@ public class PlayerActor : AGameLoopActor
 
     private void FixedUpdate()
     {
-        if (entity == null) // player is not ready
-            return;
-        if (!isInputEnabled || alreadyMovedInCurrentTurn)
+        // player is not ready, not player's turn or player already moved
+        if (entity == null || !isInputEnabled || alreadyMovedInCurrentTurn)
             return;
         Vector2Int movementInput = GetMovementInputVector();
-        if (movementInput != Vector2Int.zero && entity.AttemptToMoveBy(movementInput))
-            alreadyMovedInCurrentTurn = true;
+        // no input given
+        if (movementInput == Vector2Int.zero)
+            return;
+        ICell nextCell = entity.cell.ConnectionAt(movementInput.ToSorcererDirection());
+        // invalid movement direction
+        if (nextCell == null || nextCell.isBlockingMovement)
+            return;
+        Entity enemy = map.FirstEntityAt(nextCell.position, e => e.isBlockingMovement);
+        // entities are blocking movement
+        if (enemy != null)
+            console.Append(entity.name + " attacked " + enemy.name);
+        else
+        {
+            entity.position = nextCell.position;
+            console.Append(entity.name + " moved " + movementInput.ToSorcererDirection().ToString());
+        }
+        alreadyMovedInCurrentTurn = true;
     }
 }

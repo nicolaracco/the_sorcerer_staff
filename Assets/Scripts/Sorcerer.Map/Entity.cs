@@ -37,38 +37,28 @@ namespace Sorcerer.Map
         public Vector2Int position
         {
             get { return _position; }
-            private set 
+            set 
             {
                 _position = value;
                 OnPositionChange.Invoke();
             }
         }
+        /// <summary>
+        /// true if the entity blocks other from moving into its cell
+        /// </summary>
+        public readonly bool isBlockingMovement;
 
         public Cell cell { get { return map.CellAt(position); } }
 
-        public Entity(IMap map, char symbol, Color color, string name, Vector2Int position)
+        public Entity(IMap map, char symbol, Color color, string name, Vector2Int position, 
+                      bool isBlockingMovement = false)
         {
             this.map = map;
             this.name = name;
             this.position = position;
             this.color = color;
             this.symbol = symbol;
-        }
-
-        /// <summary>
-        /// Attempt to move the entity by a step
-        /// </summary>
-        /// <param name="delta">A vector representing the position delta (eg. (0,-1) for moving north)</param>
-        /// <returns>true if the movement can be made</returns>
-        public virtual bool AttemptToMoveBy(Vector2Int delta)
-        {
-            ICell connection;
-            if (!cell.Connections.TryGetValue(delta.ToSorcererDirection(), out connection))
-                return false;
-            if (connection.isMovementBlocked)
-                return false;
-            position += delta;
-            return true;
+            this.isBlockingMovement = isBlockingMovement;
         }
     }
 }

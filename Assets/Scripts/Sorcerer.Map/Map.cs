@@ -27,7 +27,6 @@ namespace Sorcerer.Map
             }
             if (map.Player == null)
                 throw new Exception("Player entity has not been registered during map generation");
-            map.Player.ComputeFov();
             return map;
         }
 
@@ -39,7 +38,16 @@ namespace Sorcerer.Map
         private Cell[,] cells;
         private List<Entity> entities;
         
-        public PlayerEntity Player { get; private set; }
+        private Entity player;
+        public Entity Player { 
+            get { return player; } 
+            set {
+                if (player != null)
+                    throw new Exception("Player entity has already been registered in map");
+                player = value;
+                AddEntity(value);
+            }
+        }
 
         private Map(int width, int height)
         {
@@ -74,13 +82,15 @@ namespace Sorcerer.Map
 
         public void AddEntity(Entity entity)
         {
-            if (entity is PlayerEntity)
-            {
-                if (Player != null)
-                    throw new Exception("Player entity has already been registered in map");
-                Player = entity as PlayerEntity;
-            }
-            entities.Add(entity);
+            if (!entities.Contains(entity))
+                entities.Add(entity);
+        }
+
+        public Entity FirstEntityAt(Vector2Int position, Func<Entity, bool> filter = null) {
+            foreach (Entity e in entities)
+                if (e.position == position && (filter == null || filter(e)))
+                    return e;
+            return null;
         }
 
         /// <summary>
@@ -99,19 +109,19 @@ namespace Sorcerer.Map
             Vector2Int position = cell.position;
             if (position.y > 0)
             {
-                cell.SetConnection(Direction.N, cells[position.x, position.y - 1]);
+                cell.SetConnection(Direction.S, cells[position.x, position.y - 1]);
                 if (position.x < cells.GetLength(0) - 1)
-                    cell.SetConnection(Direction.NE, cells[position.x + 1, position.y - 1]);
+                    cell.SetConnection(Direction.SE, cells[position.x + 1, position.y - 1]);
                 if (position.x > 0)
-                    cell.SetConnection(Direction.NW, cells[position.x - 1, position.y - 1]);
+                    cell.SetConnection(Direction.SW, cells[position.x - 1, position.y - 1]);
             }
             if (position.y < cells.GetLength(1) - 1)
             {
-                cell.SetConnection(Direction.S, cells[position.x, position.y + 1]);
+                cell.SetConnection(Direction.N, cells[position.x, position.y + 1]);
                 if (position.x < cells.GetLength(0) - 1)
-                    cell.SetConnection(Direction.SE, cells[position.x + 1, position.y + 1]);
+                    cell.SetConnection(Direction.NE, cells[position.x + 1, position.y + 1]);
                 if (position.x > 0)
-                    cell.SetConnection(Direction.SW, cells[position.x - 1, position.y + 1]);
+                    cell.SetConnection(Direction.NW, cells[position.x - 1, position.y + 1]);
             }
             if (position.x < cells.GetLength(0) - 1)
                 cell.SetConnection(Direction.E, cells[position.x + 1, position.y]);

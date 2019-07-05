@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Sorcerer.GameLoop;
 using Sorcerer.Map;
 
 /// <summary>
@@ -21,7 +22,7 @@ public class EntitiesManager : MonoBehaviour
     {
         map.OnFovUpdate.AddListener(RefreshVisibleEntities);
         foreach (Entity entity in map.Entities)
-            CreateEntity(entity);
+            CreateEntity(map, entity, entity == map.Player);
         RefreshVisibleEntities(map);
     }
 
@@ -35,11 +36,13 @@ public class EntitiesManager : MonoBehaviour
     /// Create a new renderer for the given entity
     /// </summary>
     /// <param name="entity">Entity for which the renderer will be created</param>
-    private void CreateEntity(Entity entity)
+    private void CreateEntity(IMap map, Entity entity, bool isPlayer)
     {
         GameObject instance = Instantiate(entityPrefab, Vector3.zero, Quaternion.identity);
-        if (entity is PlayerEntity)
-            instance.AddComponent<PlayerActor>();
+        EntityActor actor = instance.AddComponent(
+            isPlayer ? typeof(PlayerActor) : typeof(AIActor)
+        ) as EntityActor;
+        actor.Init(map, entity);
         instance.transform.parent = transform;
         EntityRenderer renderer = instance.GetComponent<EntityRenderer>();
         renderer.Init(entity);

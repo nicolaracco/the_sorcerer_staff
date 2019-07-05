@@ -16,7 +16,7 @@ namespace Sorcerer.Map
         /// <summary>
         /// true if this cell cannot be walked (lava, water, etc.)
         /// </summary>
-        public bool isMovementBlocked { get; set; }
+        public bool isBlockingMovement { get; set; }
         /// <summary>
         /// true if sight is blocked over this cell (walls, mountains, etc.)
         /// </summary>
@@ -31,7 +31,7 @@ namespace Sorcerer.Map
         public Cell(Vector2Int position, bool isMovementBlocked, bool isSightBlocked)
         {
             this.position = position;
-            this.isMovementBlocked = isMovementBlocked;
+            this.isBlockingMovement = isMovementBlocked;
             this.isSightBlocked = isSightBlocked;
             connections = new Dictionary<Direction, ICell>();
         }
@@ -47,6 +47,14 @@ namespace Sorcerer.Map
             { 
                 return new ReadOnlyDictionary<Direction, ICell>(connections); 
             } 
+        }
+
+        public ICell ConnectionAt(Direction dir)
+        {
+            ICell connection;
+            if (!Connections.TryGetValue(dir, out connection))
+                return null;
+            return connection;
         }
     }
 }

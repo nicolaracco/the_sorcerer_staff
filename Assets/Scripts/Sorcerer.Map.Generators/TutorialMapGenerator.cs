@@ -61,7 +61,7 @@ namespace Sorcerer.Map.Generators
                     createRoom(newRoom);
                     Vector2Int newRoomCenter = newRoom.Center();
                     if (rooms.Count == 0)
-                        map.AddEntity(new PlayerEntity(map, newRoomCenter));
+                        map.Player = new Entity(map, '@', Color.white, "Player", newRoomCenter, true);
                     else
                     {
                         Vector2Int prevRoomCenter = rooms[rooms.Count - 1].Center();
@@ -87,7 +87,7 @@ namespace Sorcerer.Map.Generators
                 for (int y = area.yMin + 1; y < area.yMax; y++)
                 {
                     Cell cell = map.CellAt(x, y);
-                    cell.isMovementBlocked = cell.isSightBlocked = false;
+                    cell.isBlockingMovement = cell.isSightBlocked = false;
                 }
         }
 
@@ -96,7 +96,7 @@ namespace Sorcerer.Map.Generators
             for (int x = Math.Min(x1, x2); x <= Math.Max(x1, x2); x++)
             {
                 Cell cell = map.CellAt(x, y);
-                cell.isMovementBlocked = cell.isSightBlocked = false;
+                cell.isBlockingMovement = cell.isSightBlocked = false;
             }
         }
 
@@ -105,7 +105,7 @@ namespace Sorcerer.Map.Generators
             for (int y = Math.Min(y1, y2); y <= Math.Max(y1, y2); y++)
             {
                 Cell cell = map.CellAt(x, y);
-                cell.isMovementBlocked = cell.isSightBlocked = false;
+                cell.isBlockingMovement = cell.isSightBlocked = false;
             }
         }
 
@@ -121,9 +121,9 @@ namespace Sorcerer.Map.Generators
                 if (map.Entities.FirstOrDefault(e => e.position == position) == null)
                 {
                     if (rnd.Next(0, 100) < 80)
-                        map.AddEntity(new Entity(map, 'o', desaturatedGreenColor, "Orc", position));
+                        map.AddEntity(new Entity(map, 'o', desaturatedGreenColor, "Orc", position, true));
                     else
-                        map.AddEntity(new Entity(map, 'T', darkGreen, "Troll", position));
+                        map.AddEntity(new Entity(map, 'T', darkGreen, "Troll", position, true));
                 }
             }
         }
